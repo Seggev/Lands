@@ -1,3 +1,4 @@
+from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -55,3 +56,29 @@ class BasePage:
     def close_browser(self):
         """Close the browser."""
         self.driver.quit()
+
+    def open_link_in_a_new_tab(self, url):
+        """Open a URL in a new tab."""
+        # Open the URL in a new tab using JavaScript
+        self.driver.execute_script(f"window.open('{url}', '_blank');")
+
+        # Switch to the new tab
+        self.driver.switch_to.window(self.driver.window_handles[-1])
+
+    def close_most_recent_tab(self):
+        """Close the most recent tab and switch back to the original tab."""
+        current_window = self.driver.current_window_handle
+        all_windows = self.driver.window_handles
+
+        # Check if there is more than one tab
+        if len(all_windows) > 1:
+            # Close the most recent tab
+            self.driver.close()
+
+            # Switch to the original tab
+            for window in all_windows:
+                if window != current_window:
+                    self.driver.switch_to.window(window)
+                    break
+        else:
+            print("There is only one tab open, cannot close the most recent tab.")

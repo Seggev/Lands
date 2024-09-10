@@ -21,7 +21,6 @@ while main_page.is_next_button_present():
     for land_link in lands_links:
         main_page.open_link_in_a_new_tab(land_link)
         land_page = LandPage(driver)
-        print("###################")
         land_page.print_details()
         print("###################")
         land_page.close_most_recent_tab()

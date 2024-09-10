@@ -11,11 +11,11 @@ class LandPage(BasePage):
         super().__init__(driver)
 
     def print_details(self):
-        price_element = self.driver.find_element(By.CSS_SELECTOR, LBL_PRICE)
-        acres_element = self.driver.find_element(By.CSS_SELECTOR, LBL_ACRES)
-        apn_element = self.driver.find_element(By.CSS_SELECTOR, LBL_APN)
-        offer = int(float(price_element.text.replace('$', '').replace(',', '')))/4
-        print(f"Price: {price_element.text}")
-        print(f"Acres: {acres_element.text}")
-        print(f"APN: {apn_element.text}")
+        price = self.get_text(By.CSS_SELECTOR, LBL_PRICE)
+        acres = self.get_text(By.CSS_SELECTOR, LBL_ACRES)
+        apn = self.get_text(By.CSS_SELECTOR, LBL_APN)
+        offer = int(float(price.replace('$', '').replace(',', '')))/4
+        print(f"Price: {price}")
+        print(f"Acres: {acres}")
+        print(f"APN: {apn}")
         print(f"Offer: {offer}")

@@ -21,7 +21,7 @@ class BasePage:
 
     def wait_for_element(self, by, value, timeout=10):
         """Wait for an element to be present and visible."""
-        WebDriverWait(self.driver, timeout).until(
+        return WebDriverWait(self.driver, timeout).until(
             EC.visibility_of_element_located((by, value))
         )
 

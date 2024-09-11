@@ -21,10 +21,10 @@ class MainPage(BasePage):
                                  BTN_SEARCH)
 
     def insert_min_price(self, min_price):
-        self.enter_text(By.ID, TXT_MIN_PRICE).send_keys(min_price)
+        self.enter_text(By.ID, TXT_MIN_PRICE, min_price)
 
     def insert_max_price(self, max_price):
-        self.enter_text(By.ID, TXT_MAX_PRICE).send_keys(max_price)
+        self.enter_text(By.ID, TXT_MAX_PRICE, max_price)
 
     def get_locations_as_text(self):
         self.wait_for_element(By.CSS_SELECTOR, "div.post-location-snippet.bmargin.font-sm")

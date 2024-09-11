@@ -8,9 +8,9 @@ from pages.MainPage import MainPage
 from utils.ExcelHandler import ExcelHandler
 
 ###################################################
-COUNTY_TO_SEARCH = "Izard County AR"
+COUNTY_TO_SEARCH = "Sharp County AR"
 FILE_NAME=f"../{COUNTY_TO_SEARCH}.xlsx"
-SILENT_MODE = True
+SILENT_MODE = False
 ###################################################
 
 

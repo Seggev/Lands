@@ -10,14 +10,15 @@ from utils.GeocodeAPI import GeocodeAPI
 
 ###################################################
 MIN_PRICE = 4000
-MAX_PRICE = 4200
-API_KEY="AIzaSyDCWipwPCaSuIgISzvlqAujDMgUS2ao5F8"
+MAX_PRICE = 4100
+API_KEY=""
 FILE_NAME="../locations.xlsx"
-SILENT_MODE = False
+SILENT_MODE = True
 ###################################################
 
 print("Starting script")
 locations = []
+g_locations = []
 geo = GeocodeAPI(API_KEY)
 excel_handler = ExcelHandler(FILE_NAME)
 chrome_options = Options()
@@ -40,8 +41,13 @@ while main_page.is_next_button_present():
 
 for location in locations:
     if API_KEY:
-        print(geo.get_county_and_state(location))
+        g_location = geo.get_county_and_state(location)
+        print(g_location)
+        g_locations.append(g_location)
     else:
         print(location)
 
-excel_handler.create_excel(locations,"locations")
+if API_KEY:
+    excel_handler.create_excel(g_locations, "locations")
+else:
+    excel_handler.create_excel(locations,"locations")

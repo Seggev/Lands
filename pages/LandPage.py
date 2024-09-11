@@ -19,3 +19,10 @@ class LandPage(BasePage):
         print(f"Acres: {acres}")
         print(f"APN: {apn}")
         print(f"Offer: {offer}")
+
+    def get_details(self):
+        price = self.get_text(By.CSS_SELECTOR, LBL_PRICE)
+        acres = self.get_text(By.CSS_SELECTOR, LBL_ACRES)
+        apn = self.get_text(By.CSS_SELECTOR, LBL_APN)
+        offer = int(float(price.replace('$', '').replace(',', ''))) / 4
+        return [price,acres,apn, offer]

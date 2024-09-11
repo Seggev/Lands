@@ -1,3 +1,4 @@
+from selenium.common import TimeoutException
 from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -21,9 +22,13 @@ class BasePage:
 
     def wait_for_element(self, by, value, timeout=10):
         """Wait for an element to be present and visible."""
-        return WebDriverWait(self.driver, timeout).until(
-            EC.visibility_of_element_located((by, value))
-        )
+        try:
+            return WebDriverWait(self.driver, timeout).until(
+                EC.visibility_of_element_located((by, value))
+            )
+        except TimeoutException:
+            print(f"Timeout: Element not found within {timeout} seconds: ({by}, {value})")
+            return None
 
     def click_element(self, by, value):
         """Click on an element."""

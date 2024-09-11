@@ -44,7 +44,12 @@ class BasePage:
     def get_text(self, by, value):
         """Get text from an element."""
         element = self.wait_for_element(by, value)
-        return element.text
+        if element is not None:
+            return element.text
+        else:
+            # Optionally log or raise an exception if the element is not found
+            print(f"Element not found: {by} = {value}")
+            return ""
 
     def is_element_present(self, by, value):
         """Check if an element is present on the page."""

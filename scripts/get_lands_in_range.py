@@ -11,9 +11,9 @@ from utils.GeocodeAPI import GeocodeAPI
 ###################################################
 MIN_PRICE = 1000
 MAX_PRICE = 1200
-HAS_API = False
-API_KEY=""
+API_KEY="AIzaSyDCWipwPCaSuIgISzvlqAujDMgUS2ao5F8"
 FILE_NAME="../locations.xlsx"
+SILENT_MODE = True
 ###################################################
 
 print("Starting script")
@@ -21,10 +21,12 @@ locations = []
 geo = GeocodeAPI(API_KEY)
 excel_handler = ExcelHandler(FILE_NAME)
 chrome_options = Options()
-chrome_options.add_argument("--headless")
-chrome_options.add_argument("--disable-gpu")
-chrome_options.add_argument("--window-size=1920x1080")
-
+if SILENT_MODE:
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--window-size=1920x1080")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
 service = Service(ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service, options=chrome_options)
 main_page = MainPage(driver)
@@ -37,7 +39,7 @@ while main_page.is_next_button_present():
     main_page.click_next_page()
 
 for location in locations:
-    if HAS_API:
+    if API_KEY:
         print(geo.get_county_and_state(location))
     else:
         print(location)

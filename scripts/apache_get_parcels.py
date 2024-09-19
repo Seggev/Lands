@@ -65,8 +65,6 @@ try:
                         })
         details_page.click_next()
         details_page = ApacheDetailsPage(driver)
-        if apn == "107-30-053":
-            break
 except Exception as e:
     print(f"Error in loop: {str(e)}" )
 

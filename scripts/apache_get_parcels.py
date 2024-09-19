@@ -31,8 +31,6 @@ parcels_page.select_vacant_land()
 parcels_page.insert_subdivision(SUBDIVIDION)
 parcels_page.click_search()
 parcels_page.click_first_apn()
-# apns = parcels_page.get_apns()
-# apns[0].click()
 details_page = ApacheDetailsPage(driver)
 try:
     while details_page.is_next_appears():

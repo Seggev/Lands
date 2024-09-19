@@ -9,8 +9,8 @@ from utils.ExcelHandler import ExcelHandler
 from utils.GeocodeAPI import GeocodeAPI
 
 ###################################################
-MIN_PRICE = 4000
-MAX_PRICE = 4100
+MIN_PRICE = 2800
+MAX_PRICE = 4000
 API_KEY=""
 FILE_NAME="../locations.xlsx"
 SILENT_MODE = True

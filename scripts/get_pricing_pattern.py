@@ -8,9 +8,9 @@ from pages.MainPage import MainPage
 from utils.ExcelHandler import ExcelHandler
 
 ###################################################
-COUNTY_TO_SEARCH = "Sharp County AR"
-FILE_NAME=f"../{COUNTY_TO_SEARCH}.xlsx"
-SILENT_MODE = False
+COUNTY_TO_SEARCH = "Navajo county AZ"
+FILE_NAME = f"../{COUNTY_TO_SEARCH}.xlsx"
+SILENT_MODE = True
 ###################################################
 
 
@@ -29,7 +29,7 @@ main_page.click_search()
 main_page.insert_location_search_query(COUNTY_TO_SEARCH)
 main_page.click_search()
 lands_links = main_page.get_all_lands_as_links()
-data = {"Price":[],"Acres":[],"APN":[],"Offer":[], "Link":[]}
+data = {"Price": [], "Acres": [], "APN": [], "Area": [], "Date": [], "Offer": [], "Link": []}
 try:
     while main_page.is_next_button_present():
         for land_link in lands_links:
@@ -40,7 +40,9 @@ try:
             data["Price"].append(details[0])
             data["Acres"].append(details[1])
             data["APN"].append(details[2])
-            data["Offer"].append(details[3])
+            data["Area"].append(details[3])
+            data["Offer"].append(details[4])
+            data["Date"].append(details[5])
             data["Link"].append(land_link)
             print(f"Link: {land_link}")
             land_page.close_most_recent_tab()
@@ -53,4 +55,4 @@ except Exception as e:
     print(f"An error occurred: {str(e)}")
 
 excel_handler = ExcelHandler(FILE_NAME)
-excel_handler.create_excel(data,COUNTY_TO_SEARCH)
+excel_handler.create_excel(data, COUNTY_TO_SEARCH)

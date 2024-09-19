@@ -20,7 +20,7 @@ class BasePage:
         """Find multiple elements."""
         return self.driver.find_elements(by, value)
 
-    def wait_for_element(self, by, value, timeout=10):
+    def wait_for_element(self, by, value, timeout=8):
         """Wait for an element to be present and visible."""
         try:
             return WebDriverWait(self.driver, timeout).until(

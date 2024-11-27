@@ -1,4 +1,6 @@
-from selenium.common import TimeoutException
+from time import sleep
+
+from selenium.common import TimeoutException, StaleElementReferenceException, JavascriptException
 from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -28,6 +30,15 @@ class BasePage:
             )
         except TimeoutException:
             print(f"Timeout: Element not found within {timeout} seconds: ({by}, {value})")
+            return None
+
+    def wait_for(self,element, timeout=3):
+        try:
+            return WebDriverWait(self.driver, timeout).until(
+                EC.visibility_of(element)
+            )
+        except TimeoutException:
+            print(f"Timeout: Element not found within {timeout} seconds")
             return None
 
     def click_element(self, by, value):
@@ -92,3 +103,56 @@ class BasePage:
                     break
         else:
             print("There is only one tab open, cannot close the most recent tab.")
+
+    def scroll_to_end(self):
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+    def scroll_to_start(self):
+        self.driver.execute_script("window.scrollTo(0, 0);")
+
+    def get_text_with_retry(self, parent_element, by, selector, max_attempts=3, timeout=10):
+        for attempt in range(max_attempts):
+            try:
+                element = WebDriverWait(parent_element, timeout).until(
+                    EC.presence_of_element_located((by, selector))
+                )
+                return element.text
+            except (StaleElementReferenceException, TimeoutException):
+                if attempt == max_attempts - 1:
+                    print(f"Failed to get text for selector {selector} after {max_attempts} attempts")
+                    return None
+
+    def scroll_to_element(self, element, max_retries=3, wait_time=1):
+        for attempt in range(max_retries):
+            try:
+                self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
+                return True
+            except (StaleElementReferenceException, JavascriptException) as e:
+                if attempt < max_retries - 1:  # If it's not the last attempt
+                    print(f"Scroll attempt {attempt + 1} failed. Retrying in {wait_time} second(s)...")
+                    sleep(wait_time)
+                else:
+                    print(f"Failed to scroll to element after {max_retries} attempts: {str(e)}")
+                    return False
+        return False
+
+    def is_mac(self):
+        # This method can be used to detect if the test is running on a macOS system
+        import platform
+        return platform.system() == "Darwin"
+
+    def switch_to_new_tab(self):
+        # Get the current window handles and switch to the new one
+        windows = self.driver.window_handles
+        self.driver.switch_to.window(windows[-1])
+
+    def close_current_tab_and_focus_on_first(self):
+        """
+        Closes the current tab and switches focus to the first tab.
+        """
+        # Close the current tab
+        self.driver.close()
+
+        # Get all window handles and switch to the first one
+        first_tab = self.driver.window_handles[0]
+        self.driver.switch_to.window(first_tab)

@@ -1,20 +1,26 @@
+import os
+from datetime import datetime
+from pathlib import Path
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from pages.LandPage import LandPage
-from pages.MainPage import MainPage
+from pages.LandModoPage import LandModoPage
 from utils.ExcelHandler import ExcelHandler
 
 ###################################################
-COUNTY_TO_SEARCH = "Navajo county AZ"
-FILE_NAME = f"../{COUNTY_TO_SEARCH}.xlsx"
+COUNTY_TO_SEARCH = "Sandoval county NM"
 SILENT_MODE = True
 ###################################################
 
 
 print("Starting script")
+root_dir = Path(__file__).parent.parent.parent
+date_str = datetime.today().strftime('%Y-%m-%d_%H-%M-%S')
+file_name = f"{COUNTY_TO_SEARCH}-Demand-{date_str}.xlsx"
+full_file_name = root_dir / 'data' / file_name
 chrome_options = Options()
 if SILENT_MODE:
     chrome_options.add_argument("--headless")
@@ -24,7 +30,7 @@ if SILENT_MODE:
     chrome_options.add_argument("--disable-dev-shm-usage")
 service = Service(ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service, options=chrome_options)
-main_page = MainPage(driver)
+main_page = LandModoPage(driver)
 main_page.click_search()
 main_page.insert_location_search_query(COUNTY_TO_SEARCH)
 main_page.click_search()
@@ -54,5 +60,7 @@ try:
 except Exception as e:
     print(f"An error occurred: {str(e)}")
 
-excel_handler = ExcelHandler(FILE_NAME)
+
+
+excel_handler = ExcelHandler(full_file_name)
 excel_handler.create_excel(data, COUNTY_TO_SEARCH)

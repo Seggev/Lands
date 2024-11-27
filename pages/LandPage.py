@@ -21,20 +21,27 @@ class LandPage(BasePage):
         super().__init__(driver)
 
     def print_details(self):
-        price = self.get_text(By.CSS_SELECTOR, LBL_PRICE)
-        acres = self.get_text(By.CSS_SELECTOR, LBL_ACRES)
-        apn = self.get_text(By.CSS_SELECTOR, LBL_APN)
-        offer = int(float(price.replace('$', '').replace(',', ''))) / 4
-        print(f"Price: {price}")
-        print(f"Acres: {acres}")
-        print(f"APN: {apn}")
-        print(f"Offer: {offer}")
+        try:
+            price = self.get_text(By.CSS_SELECTOR, LBL_PRICE)
+            acres = self.get_text(By.CSS_SELECTOR, LBL_ACRES)
+            apn = self.get_text(By.CSS_SELECTOR, LBL_APN)
+            offer = int(float(price.replace('$', '').replace(',', ''))) / 4
+            print(f"Price: {price}")
+            print(f"Acres: {acres}")
+            print(f"APN: {apn}")
+            print(f"Offer: {offer}")
+        except Exception as e:
+            print(f"Error in LandPage.print_details: {str(e)}")
 
     def get_details(self):
         price = self.get_text(By.CSS_SELECTOR, LBL_PRICE)
         acres = self.get_text(By.CSS_SELECTOR, LBL_ACRES)
         apn = self.get_text(By.CSS_SELECTOR, LBL_APN)
-        offer = int(float(price.replace('$', '').replace(',', ''))) / 4
         area = get_area_by_apn(apn)
         date = self.get_text(By.CSS_SELECTOR, LBL_DATE)
+        offer = "N\A"
+        try:
+            offer = int(float(price.replace('$', '').replace(',', ''))) / 4
+        except Exception as e:
+            print(f"Error getting offer: {str(e)}")
         return [price, acres, apn, area, offer, date]

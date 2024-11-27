@@ -56,6 +56,15 @@ class ApacheDetailsPage(BasePage):
     def get_tax_due(self):
         return self.get_text(XPATH, LBL_TOTAL_DUE)
 
+    def get_account_number(self):
+        current_url = self.driver.current_url
+        start_index = current_url.find('accountNum=') + len('accountNum=')
+        end_index = current_url.find('&', start_index)
+        if end_index == -1:
+            end_index = len(current_url)
+        account_num = current_url[start_index:end_index]
+        return account_num
+
     def click_next(self):
         self.click_element(XPATH, BTN_NEXT)
 

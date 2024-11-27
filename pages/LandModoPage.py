@@ -12,7 +12,7 @@ TXT_SEARCH_LOCATION = "input.form-control.googleSuggest.googleLocation.pac-targe
 BTN_VIEW_MORE = "a.btn.btn-success.col-sm-5.view-details.rmargin"
 
 
-class MainPage(BasePage):
+class LandModoPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver, URL)
 

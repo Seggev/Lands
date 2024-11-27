@@ -49,5 +49,5 @@ class GeocodeAPI:
             return county, state
 
         except Exception as e:
-            print(f"An error occurred: {e}")
+            print(f"An error occurred in get_county_and_state: {e}")
             return None, None

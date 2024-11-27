@@ -38,7 +38,7 @@ class LandModoPage(BasePage):
         next_button = self.wait_for_element(By.CSS_SELECTOR, BTN_NEXT)
         if next_button:
             self.driver.execute_script("arguments[0].scrollIntoView();", next_button)
-            next_button.click()
+            self.click_element(By.CSS_SELECTOR,BTN_NEXT)
         else:
             print("Next button not found")
 

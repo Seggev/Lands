@@ -18,7 +18,7 @@ from utils.GeocodeAPI import GeocodeAPI
 MIN_PRICE = 2800
 MAX_PRICE = 4000
 API_KEY = ""
-SILENT_MODE = False
+SILENT_MODE = True
 ###################################################
 
 print("Starting script")
